@@ -11,7 +11,7 @@ set -euo pipefail
 
 TTY_DEV="/dev/tty12"
 # Use -T for human-readable timestamps; there is no --human flag in dmesg.
-DMS_CMD=(dmesg --human -T)
+DMS_CMD="dmesg --human -T"
 
 if [[ "${EUID}" -ne 0 ]]; then
   echo "Error: run as root." >&2
@@ -23,11 +23,10 @@ fi
 echo "DMESG INFOS TO: ${TTY_DEV}"
 
 ### PRELOOP
-
-bash -c "${DMS_CMD[@]} --follow" 2>&1 | tee -a "${TTY_DEV}"
-
+   sh -c "${DMS_CMD} --follow 2>&1 | tee -a ${TTY_DEV}" &> /var/log/dmesg.log.0 & 
 ### LOOP
 
 while true; do
-  bash -c "${DMS_CMD[@]} --follow-new" 2>&1 | tee -a "${TTY_DEV}"
+
+  sh -c "${DMS_CMD} --follow-new 2>&1 | tee -a ${TTY_DEV}" &>> /var/log/dmesg.log.0  &
 done
