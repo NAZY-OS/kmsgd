@@ -5,7 +5,7 @@ A simple daemon that displays kernel messages to a TTY device.
 ## Installation
 
 ```sh
-git clone https://github.com/NAZY-OS/kmsgd/kmsgd.git
+git clone https://github.com/NAZY-OS/kmsgd.git
 cd kmsgd
 sudo make install
 ```
