@@ -23,7 +23,7 @@ check_root() {
 }
 
 start_daemon() {
-    TTY="${1:-12}"  # Default to tty12 if no parameter given
+    TTY="${2:-11}"  # Default to tty11 if no parameter given
 
     if [ -f "${PIDFILE}" ]; then
         PID=$(cat "${PIDFILE}")
@@ -85,7 +85,7 @@ case "$1" in
         ;;
     *)
         echo "Usage: $0 {start [tty]}|{stop}|{restart [tty]}"
-        echo "Default TTY: 12"
+        echo "Default TTY: 11"
         exit 1
         ;;
 esac
