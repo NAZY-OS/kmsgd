@@ -41,7 +41,7 @@ install_init_systemd() {
     if [ -d "${SYSTEMD_DIR}" ]; then
         echo "Installing systemd service..."
         install -m 644 kmsgd.service "${SYSTEMD_DIR}/"
-        systemctl daemon-reload
+        systemctl daemon-reload || true
         echo "Run 'systemctl enable --now ${NAME}' to start the daemon"
     else
         echo "systemd not detected (skipping systemd service)"
