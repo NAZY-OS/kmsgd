@@ -1,0 +1,19 @@
+#!/bin/sh
+#
+# PROVIDE: kmsgd
+# REQUIRE: LOGIN
+# KEYWORD: shutdown
+
+. /etc/rc.subr
+
+name="kmsgd"
+rcvar="${name}_enable"
+command="/sbin/${name}"
+command_args="start"
+pidfile="/var/run/${name}.pid"
+required_files="/sbin/${name} /sbin/${name}.sh"
+start_cmd="${command} ${command_args}"
+stop_cmd="${command} stop"
+
+load_rc_config $name
+run_rc_command "$1"
