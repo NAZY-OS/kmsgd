@@ -9,9 +9,6 @@ NAME="kmsgd"
 PREFIX="/usr/local"
 SBIN_DIR="${PREFIX}/sbin"
 VAR_RUN_DIR="/var/run"
-SYSTEMD_DIR="/etc/systemd/system"
-RCONF_DIR="/etc/rc.d"
-INIT_DIR="/etc/init.d"
 
 ## FUNCTIONS
 check_root() {
@@ -39,32 +36,33 @@ install_files() {
     echo "Files installed to ${SBIN_DIR}"
 }
 
-install_init() {
-    # Try systemd first
+install_init_systemd() {
+    SYSTEMD_DIR="/etc/systemd/system"
     if [ -d "${SYSTEMD_DIR}" ]; then
         echo "Installing systemd service..."
-        install -m 644 "${NAME}.service" "${SYSTEMD_DIR}/"
+        install -m 644 kmsgd.service "${SYSTEMD_DIR}/"
         systemctl daemon-reload
         echo "Run 'systemctl enable --now ${NAME}' to start the daemon"
-        return
+    else
+        echo "systemd not detected (skipping systemd service)"
     fi
+}
 
-    # Try BSD-style init
+install_init_bsd() {
+    RCONF_DIR="/etc/rc.d"
+    INIT_DIR="/etc/init.d"
     if [ -d "${RCONF_DIR}" ] && [ -d "${INIT_DIR}" ]; then
         echo "Installing BSD-style init script..."
-        install -m 755 "${NAME}.init" "${INIT_DIR}/"
+        install -m 755 kmsgd.init "${RCONF_DIR}/"
         echo "Run '/etc/rc.d/${NAME} start' to start the daemon"
-        return
+    else
+        echo "BSD rc system not detected (skipping BSD init script)"
     fi
-
-    # Fallback to basic instructions
-    echo "No init system detected"
-    echo "To start the daemon manually:"
-    echo "  ${SBIN_DIR}/${NAME} start"
 }
 
 ## MAIN
 check_root
 install_files
-install_init
+install_init_systemd
+install_init_bsd
 echo "Installation complete"
