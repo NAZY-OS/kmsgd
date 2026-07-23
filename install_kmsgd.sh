@@ -6,7 +6,7 @@ set -eu
 
 ## CONFIG
 NAME="kmsgd"
-PREFIX="/usr/local"
+PREFIX="/"
 SBIN_DIR="${PREFIX}/sbin"
 VAR_RUN_DIR="/var/run"
 SYSTEMD_DIR="/etc/systemd/system"
