@@ -1,7 +1,7 @@
 # Makefile for kmsgd daemon
 # KISS style, compatible with Linux and BSD
 
-PREFIX ?= /usr/local
+PREFIX ?= /
 SBIN_DIR ?= $(PREFIX)/sbin
 VAR_RUN_DIR ?= /var/run
 RCONF_DIR ?= /etc/rc.d
